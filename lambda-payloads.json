@@ -1,0 +1,7 @@
+{
+    "myChatbot": {
+        "lambda": {
+            "message": "How old are you?"
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "myChatbot",
+  "version": "1.0.0",
+  "description": "Library for NLU (Natural Language Understanding) done in Node.js",
+  "main": "index.js",
+  "author": {
+    "email": "loupxavi@amazon.com",
+    "name": "Xavier Loup"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "node-nlp": "^3.0.1"
+  }
+}

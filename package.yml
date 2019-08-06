@@ -1,19 +1,13 @@
 AWSTemplateFormatVersion: '2010-09-09'
-
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  Chatbot
+Description: 'Chatbot
 
   Chatbot dempo app
 
-
+  '
 Globals:
   Function:
     Timeout: 10
-
-Conditions:
-  IsBatchingFrequencyInMinutesSingular: !Equals [!Ref BatchingFrequencyInMinutes, 1]
-
 Resources:
   ChatbotLambdaRole:
     Type: AWS::IAM::Role
@@ -55,14 +49,11 @@ Resources:
             Resource: '*'
           Version: '2012-10-17'
         PolicyName: XRayAccess
-        
   ChatbotFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.hamdler
       Runtime: nodejs8.10
-      Environment:
-        Variables:
       Events:
         HelloWorldApi:
           Type: Api
@@ -73,9 +64,11 @@ Resources:
         Fn::GetAtt:
         - ChatbotLambdaRole
         - Arn
-
+      CodeUri: s3://aws-chatbot-demo-code/3558513404b8a38f5719458fab454ef5
 Outputs:
   ChatbotFunction:
-    Description: "CertificateAutorenew Function ARN"
-    Value: !GetAtt ChatbotFunction.Arn
-
+    Description: CertificateAutorenew Function ARN
+    Value:
+      Fn::GetAtt:
+      - ChatbotFunction
+      - Arn

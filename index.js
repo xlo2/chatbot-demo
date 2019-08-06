@@ -35,5 +35,6 @@ exports.handler =  async function(event, context) {
     ? result.answer
     : "Sorry, I don't understand";
   console.log("EVENT: \n" + JSON.stringify(event, null, 2))
-  return answer;
+  return { statusCode: 200, body: answer};
 }
+

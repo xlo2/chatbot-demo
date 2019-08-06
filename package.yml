@@ -52,22 +52,22 @@ Resources:
   ChatbotFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.hamdler
+      Handler: index.handler
       Runtime: nodejs8.10
       Events:
         HelloWorldApi:
           Type: Api
           Properties:
-            Path: /
-            Method: GET
+            Path: /chat
+            Method: POST
       Role:
         Fn::GetAtt:
         - ChatbotLambdaRole
         - Arn
-      CodeUri: s3://aws-chatbot-demo-code/3558513404b8a38f5719458fab454ef5
+      CodeUri: s3://aws-chatbot-demo-code/c1b823e9d338d7bc526b7eb9077c5d69
 Outputs:
   ChatbotFunction:
-    Description: CertificateAutorenew Function ARN
+    Description: Chatbot Function ARN
     Value:
       Fn::GetAtt:
       - ChatbotFunction

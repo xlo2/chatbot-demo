@@ -56,16 +56,14 @@ Resources:
   ChatbotFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.hamdler
+      Handler: index.handler
       Runtime: nodejs8.10
-      Environment:
-        Variables:
       Events:
         HelloWorldApi:
           Type: Api
           Properties:
-            Path: /
-            Method: GET
+            Path: /chat
+            Method: POST
       Role:
         Fn::GetAtt:
         - ChatbotLambdaRole

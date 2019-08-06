@@ -11,9 +11,6 @@ Globals:
   Function:
     Timeout: 10
 
-Conditions:
-  IsBatchingFrequencyInMinutesSingular: !Equals [!Ref BatchingFrequencyInMinutes, 1]
-
 Resources:
   ChatbotLambdaRole:
     Type: AWS::IAM::Role
@@ -76,6 +73,6 @@ Resources:
 
 Outputs:
   ChatbotFunction:
-    Description: "CertificateAutorenew Function ARN"
+    Description: "Chatbot Function ARN"
     Value: !GetAtt ChatbotFunction.Arn
 

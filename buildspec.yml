@@ -1,0 +1,11 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - npm install
+      - aws cloudformation package --template-file template.yaml --output-template-file serverless-output.yaml --s3-bucket aws-chatbot-demo-code
+artifacts:
+  type: zip
+  files:
+    - template.yaml
+    - serverless-output.yaml

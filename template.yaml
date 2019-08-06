@@ -9,7 +9,7 @@ Description: >
 
 Globals:
   Function:
-    Timeout: 10
+    Timeout: 5
 
 Resources:
   ChatbotLambdaRole:
@@ -58,6 +58,7 @@ Resources:
     Properties:
       Handler: index.handler
       Runtime: nodejs8.10
+      MemorySize: 3008
       Events:
         HelloWorldApi:
           Type: Api

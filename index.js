@@ -29,7 +29,7 @@ nlpManager.load('./model.nlp');
 
 exports.handler =  async function(event, context) {
   console.log(event);
-  let result = await nlpManager.process(event.message);
+  let result = await nlpManager.process(JSON.parse(event.body).message);
   let answer =
     result.score > threshold && result.answer
     ? result.answer

@@ -3,5 +3,12 @@
         "lambda": {
             "message": "How old are you?"
         }
+    },
+    "ChatbotFunction": {
+        "lambda": {
+            "body": {
+                "message": "Hello"
+            }
+        }
     }
 }

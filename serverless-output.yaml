@@ -1,0 +1,84 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Chatbot
+
+  Chatbot dempo app
+
+  '
+Parameters:
+  FrontendDomainName:
+    Type: String
+    Default: '*'
+    Description: The domain name for CORS configuration of the API
+Globals:
+  Function:
+    Timeout: 10
+  Api:
+    EndpointConfiguration: REGIONAL
+    Cors:
+      Fn::Sub: '''${FrontendDomainName}'''
+Resources:
+  ChatbotLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+        Version: '2012-10-17'
+      Policies:
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - cloudwatch:PutMetricData
+            Effect: Allow
+            Resource: '*'
+          Version: '2012-10-17'
+        PolicyName: PutMetric
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Effect: Allow
+            Resource: '*'
+          Version: '2012-10-17'
+        PolicyName: LambdaBasicExecution
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - xray:PutTraceSegments
+            - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          Version: '2012-10-17'
+        PolicyName: XRayAccess
+  ChatbotFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs8.10
+      MemorySize: 3008
+      Events:
+        HelloWorldApi:
+          Type: Api
+          Properties:
+            Path: /chat
+            Method: POST
+      Role:
+        Fn::GetAtt:
+        - ChatbotLambdaRole
+        - Arn
+      CodeUri: s3://aws-chatbot-demo-code/037c697e6c8d3fbc5681c2e44e790915
+Outputs:
+  ChatbotFunction:
+    Description: Chatbot Function ARN
+    Value:
+      Fn::GetAtt:
+      - ChatbotFunction
+      - Arn

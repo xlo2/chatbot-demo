@@ -21,20 +21,37 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-const { NlpManager } = require('node-nlp');;
+const { NlpManager } = require('node-nlp');
+const DynamoConversationContext = require('./dynamo-conversation-context');
+let myConversationContext = new DynamoConversationContext();
 
 const threshold = 0.5;
-const nlpManager = new NlpManager({ languages: ['en'], nlu: { log: true }});
+const nlpManager = new NlpManager({ languages: ['en'], nlu: { log: true }, conversationContext: myConversationContext });
 nlpManager.load('./model.nlp');
+
 
 exports.handler =  async function(event, context) {
   console.log(event);
-  let result = await nlpManager.process(JSON.parse(event.body).message);
+  
+  let result = await nlpManager.process('en',JSON.parse(event.body).message,myConversationContext);
   let answer =
     result.score > threshold && result.answer
     ? result.answer
     : "Sorry, I don't understand";
   console.log("EVENT: \n" + JSON.stringify(event, null, 2))
-  return { statusCode: 200, body: answer};
+  
+    var responseCode = 200;
+    
+    var response = {
+        statusCode: responseCode,
+        headers: {
+            "Access-Control-Allow-Origin": "*"
+        },
+        body: JSON.stringify(answer)
+    };
+    
+    context.succeed(response);
+
+  return response;
 }
 

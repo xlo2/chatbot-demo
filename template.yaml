@@ -6,11 +6,20 @@ Description: >
 
   Chatbot dempo app
 
+Parameters: 
+  FrontendDomainName: 
+    Type: String
+    Default: "*"
+    Description: The domain name for CORS configuration of the API
+
 
 Globals:
   Function:
-    Timeout: 5
-
+    Timeout: 10
+  Api:
+    EndpointConfiguration: REGIONAL
+    Cors: !Sub "'${FrontendDomainName}'"
+    
 Resources:
   ChatbotLambdaRole:
     Type: AWS::IAM::Role

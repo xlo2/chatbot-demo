@@ -5,9 +5,18 @@ Description: 'Chatbot
   Chatbot dempo app
 
   '
+Parameters:
+  FrontendDomainName:
+    Type: String
+    Default: '*'
+    Description: The domain name for CORS configuration of the API
 Globals:
   Function:
     Timeout: 10
+  Api:
+    EndpointConfiguration: REGIONAL
+    Cors:
+      Fn::Sub: '''${FrontendDomainName}'''
 Resources:
   ChatbotLambdaRole:
     Type: AWS::IAM::Role
@@ -54,6 +63,7 @@ Resources:
     Properties:
       Handler: index.handler
       Runtime: nodejs8.10
+      MemorySize: 3008
       Events:
         HelloWorldApi:
           Type: Api
@@ -64,7 +74,7 @@ Resources:
         Fn::GetAtt:
         - ChatbotLambdaRole
         - Arn
-      CodeUri: s3://aws-chatbot-demo-code/c1b823e9d338d7bc526b7eb9077c5d69
+      CodeUri: s3://aws-chatbot-demo-code/866ce901da2114d919873af5bc6a7e6a
 Outputs:
   ChatbotFunction:
     Description: Chatbot Function ARN

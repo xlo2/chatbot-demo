@@ -31,7 +31,7 @@ nlpManager.load('./model.nlp');
 exports.handler =  async function(event, context) {
   console.log(event);
   
-  let result = await nlpManager.process('fr', event.body.message, conversationContext);
+  let result = await nlpManager.process('fr', JSON.parse(event.body).message, conversationContext);
   let answer =
     result.score > threshold && result.answer
     ? result.answer

@@ -29,15 +29,14 @@ const nlpManager = new NlpManager({ languages: ['en'], nlu: { log: true } });
 nlpManager.load('./model.nlp');
 
 exports.handler =  async function(event, context) {
-  console.log(event);
-  
-  let result = await nlpManager.process('en',JSON.parse(event.body).message, conversationContext);
+  let body = JSON.parse(event.body);
+  conversationContext = body.context
+  let result = await nlpManager.process('en', body.message, conversationContext);
   let answer =
     result.score > threshold && result.answer
     ? result.answer
     : "Sorry, I don't understand";
-  console.log("EVENT: \n" + JSON.stringify(event, null, 2))
-  
+
   var response = { 
     statusCode: 200, 
     headers: { 

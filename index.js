@@ -38,27 +38,12 @@ exports.handler =  async function(event, context) {
     : "Sorry, I don't understand";
   console.log("EVENT: \n" + JSON.stringify(event, null, 2))
   
-  
-    var responseCode = 200; 
-     
-    var response = { 
-        statusCode: responseCode, 
-        headers: { 
-            "Access-Control-Allow-Origin": "*" 
-        }, 
-        body: JSON.stringify(answer) 
-    };
+  var response = { 
+    statusCode: 200, 
+    headers: { 
+      "Access-Control-Allow-Origin": "*" 
+    }, body: JSON.stringify( { message: answer, context: conversationContext} ) 
+  };
 
-  // var response = {
-  //   statusCode: 200,
-  //   headers: {
-  //     "Access-Control-Allow-Origin": "*"
-  //   },
-  //   body: {
-  //     message: JSON.stringify(answer),
-  //     context: JSON.stringify(conversationContext)
-  //   }
-  // };
-    
   return response;
 }

@@ -22,18 +22,16 @@
  */
 
 const { NlpManager } = require('node-nlp');
-const DynamoConversationContext = require('./dynamo-conversation-context');
-let myConversationContext = new DynamoConversationContext();
+let conversationContext = {};
 
 const threshold = 0.5;
-const nlpManager = new NlpManager({ languages: ['en'], nlu: { log: true }, conversationContext: myConversationContext });
+const nlpManager = new NlpManager({ languages: ['en'], nlu: { log: true } });
 nlpManager.load('./model.nlp');
-
 
 exports.handler =  async function(event, context) {
   console.log(event);
   
-  let result = await nlpManager.process('en',JSON.parse(event.body).message,myConversationContext);
+  let result = await nlpManager.process('fr', event.body.message, conversationContext);
   let answer =
     result.score > threshold && result.answer
     ? result.answer
@@ -47,7 +45,7 @@ exports.handler =  async function(event, context) {
         headers: {
             "Access-Control-Allow-Origin": "*"
         },
-        body: JSON.stringify(answer)
+        body: { message: JSON.stringify(answer), context: JSON.stringify(conversationContext) }
     };
     
     context.succeed(response);

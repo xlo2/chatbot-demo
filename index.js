@@ -22,20 +22,22 @@
  */
 
 const { NlpManager } = require('node-nlp');
+const threshold = 0.5;
+const nlpManager = new NlpManager({ languages: ['en', 'es', 'fr'], nlu: { log: true } });
+
 let conversationContext = {};
 
-const threshold = 0.5;
-const nlpManager = new NlpManager({ languages: ['en'], nlu: { log: true } });
 nlpManager.load('./model.nlp');
 
 exports.handler =  async function(event, context) {
   let body = JSON.parse(event.body);
   conversationContext = body.context;
-  let result = await nlpManager.process('en', body.message, conversationContext);
+  let language = await guessLanguage(nlpManager, body.message);
+  let result = await nlpManager.process(language, body.message, conversationContext);
   let answer =
     result.score > threshold && result.answer
     ? result.answer
-    : "Sorry, I don't understand";
+    : defaultAnswer(language);
 
   var response = { 
     statusCode: 200, 
@@ -45,4 +47,21 @@ exports.handler =  async function(event, context) {
   };
 
   return response;
+}
+
+function guessLanguage(myNlpManager, message) {
+  let detectedLanguage = myNlpManager.guessLanguage(message);
+  console.log("Language:", detectedLanguage);
+  if (detectedLanguage) {
+    return detectedLanguage
+  }
+  return 'en';
+}
+
+function defaultAnswer(language) {
+  if (language === 'es') {
+    return "Lo siento no entiendo"
+  } else if (language === 'fr') {
+    return "Désolé, je ne comprends pas"
+  } else return "Sorry, I don't understand";
 }

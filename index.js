@@ -51,9 +51,8 @@ exports.handler =  async function(event, context) {
 
 function guessLanguage(myNlpManager, message, context) {
   let detectedLanguage = myNlpManager.guessLanguage(message);
-  console.log("Language:", detectedLanguage);
-  if (detectedLanguage) {
-    return detectedLanguage
+  if (detectedLanguage === 'en' || detectedLanguage === 'es' || detectedLanguage === 'fr' ) {
+    return detectedLanguage;
   } else if (conversationContext && conversationContext.slotFill && conversationContext.slotFill.localeIso2) {
     return conversationContext.slotFill.localeIso2;
   }

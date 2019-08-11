@@ -32,7 +32,7 @@ nlpManager.load('./model.nlp');
 exports.handler =  async function(event, context) {
   let body = JSON.parse(event.body);
   conversationContext = body.context;
-  let language = await guessLanguage(nlpManager, body.message);
+  let language = await guessLanguage(nlpManager, body.message, conversationContext);
   let result = await nlpManager.process(language, body.message, conversationContext);
   let answer =
     result.score > threshold && result.answer
@@ -49,11 +49,13 @@ exports.handler =  async function(event, context) {
   return response;
 }
 
-function guessLanguage(myNlpManager, message) {
+function guessLanguage(myNlpManager, message, context) {
   let detectedLanguage = myNlpManager.guessLanguage(message);
   console.log("Language:", detectedLanguage);
   if (detectedLanguage) {
     return detectedLanguage
+  } else if (conversationContext && conversationContext.slotFill && conversationContext.slotFill.localeIso2) {
+    return conversationContext.slotFill.localeIso2;
   }
   return 'en';
 }

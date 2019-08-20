@@ -6,9 +6,97 @@
     },
     "ChatbotFunction": {
         "lambda": {
-            "body": {
-                "message": "Hello"
-            }
+            "resource": "/chat",
+            "path": "/chat",
+            "httpMethod": "POST",
+            "headers": {
+                "accept": "*/*",
+                "accept-encoding": "gzip, deflate, br",
+                "accept-language": "en-GB,en;q=0.9,en-US;q=0.8,fr;q=0.7",
+                "content-type": "text/plain;charset=UTF-8",
+                "Host": "3ancux3lva.execute-api.eu-west-1.amazonaws.com",
+                "origin": "https://chatbot-demo.xlcorp.eu",
+                "referer": "https://chatbot-demo.xlcorp.eu/",
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36",
+                "X-Amzn-Trace-Id": "Root=1-5d4d94a2-1c0859ea54391ba12c177938",
+                "X-Forwarded-For": "54.240.197.228",
+                "X-Forwarded-Port": "443",
+                "X-Forwarded-Proto": "https"
+            },
+            "multiValueHeaders": {
+                "accept": [
+                    "*/*"
+                ],
+                "accept-encoding": [
+                    "gzip, deflate, br"
+                ],
+                "accept-language": [
+                    "en-GB,en;q=0.9,en-US;q=0.8,fr;q=0.7"
+                ],
+                "content-type": [
+                    "text/plain;charset=UTF-8"
+                ],
+                "Host": [
+                    "3ancux3lva.execute-api.eu-west-1.amazonaws.com"
+                ],
+                "origin": [
+                    "https://chatbot-demo.xlcorp.eu"
+                ],
+                "referer": [
+                    "https://chatbot-demo.xlcorp.eu/"
+                ],
+                "User-Agent": [
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"
+                ],
+                "X-Amzn-Trace-Id": [
+                    "Root=1-5d4d94a2-1c0859ea54391ba12c177938"
+                ],
+                "X-Forwarded-For": [
+                    "54.240.197.228"
+                ],
+                "X-Forwarded-Port": [
+                    "443"
+                ],
+                "X-Forwarded-Proto": [
+                    "https"
+                ]
+            },
+            "queryStringParameters": null,
+            "multiValueQueryStringParameters": null,
+            "pathParameters": null,
+            "stageVariables": null,
+            "requestContext": {
+                "resourceId": "waygcx",
+                "resourcePath": "/chat",
+                "httpMethod": "POST",
+                "extendedRequestId": "eKQpdE10joEFz3A=",
+                "requestTime": "09/Aug/2019:15:43:30 +0000",
+                "path": "/Prod/chat",
+                "accountId": "468252701278",
+                "protocol": "HTTP/1.1",
+                "stage": "Prod",
+                "domainPrefix": "3ancux3lva",
+                "requestTimeEpoch": 1565365410925,
+                "requestId": "701fa20d-babc-11e9-a2a1-77c2209b8a31",
+                "identity": {
+                    "cognitoIdentityPoolId": null,
+                    "accountId": null,
+                    "cognitoIdentityId": null,
+                    "caller": null,
+                    "sourceIp": "54.240.197.228",
+                    "principalOrgId": null,
+                    "accessKey": null,
+                    "cognitoAuthenticationType": null,
+                    "cognitoAuthenticationProvider": null,
+                    "userArn": null,
+                    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36",
+                    "user": null
+                },
+                "domainName": "3ancux3lva.execute-api.eu-west-1.amazonaws.com",
+                "apiId": "3ancux3lva"
+            },
+            "body": "{ \"message\": \"700\", \"context\": {\"name\":\"Paul\"} }",
+            "isBase64Encoded": false
         }
     }
 }

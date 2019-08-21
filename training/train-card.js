@@ -35,6 +35,20 @@ async function main() {
 
   manager.addAnswer('en', 'en_get_limit', 'Your current {{ duration }} {{ type }} limit is 1 200 €');
 
+  // English Help
+  manager.addDocument('en', 'What can you do?', 'en_help');
+  manager.addDocument('en', 'Help', 'en_help');
+  manager.addDocument('en', 'can you help me now', 'en_help');
+  manager.addDocument('en', 'I need you to do something for me', 'en_helpp');
+  manager.addDocument('en', 'assist me', 'en_help');
+  manager.addDocument('en', 'I need you to help me', 'en_help');
+  manager.addDocument('en', 'I need your help', 'en_help');
+  manager.addDocument('en', 'can you assist me', 'en_help');
+  manager.addDocument('en', 'you can help me', 'en_help');
+
+  manager.addAnswer('en', 'en_help', "I am your credit card limit assistant. You can ask me for your current credit card limit or request a limit modification|What is my current limit?,I want to change my limit");
+  manager.addAnswer('en', 'en_help', "I'm glad to help. You can ask me for your current credit card limit or request a limit modification|What is my current limit?,I want to change my limit");
+
   // French Modify Limit
   manager.addDocument('fr', 'Je veux augmenter mon plafond %duration% de %type% à %amount% €', 'fr_modify_limit');
   manager.addDocument('fr', 'Je souhaite monter mon plafond %duration% à %amount%', 'fr_modify_limit');
@@ -66,6 +80,16 @@ async function main() {
   manager.slotManager.addSlot('fr_get_limit', 'duration', true, { fr: 'Voulez-vous le plafond quotidien ou mensuel ?|quotidien,mensuel' });
 
   manager.addAnswer('fr', 'fr_get_limit', 'Votre plafond de {{ type }} {{ duration }} est actuellement de 1 200 €');
+
+  // French Help
+  manager.addDocument('fr', 'Que peux-tu faire?', 'fr_help');
+  manager.addDocument('fr', 'Aide', 'fr_help');
+  manager.addDocument('fr', 'Peux-tu m\'aider', 'fr_help');
+  manager.addDocument('fr', 'J\'ai besoin d\'aide', 'fr_help');
+  manager.addDocument('fr', 'Aide moi', 'fr_help');
+
+  manager.addAnswer('fr', 'fr_help', "Je suis votre assistant pour les plafonds de votre carte de crédit. Vous pouvez consulter votre plafond actuel ou demander une modification|Quel est mon plafond ?,Je veux changer mon plafond");
+  manager.addAnswer('fr', 'fr_help', "Je suis heureux d'aider. Vous pouvez consulter votre plafond actuel ou demander une modification|Quel est mon plafond ?,Je veux changer mon plafond");
 
   // common
   manager.addRegexEntity('amount', ['en', 'fr'], '/^\d+$/');
@@ -149,17 +173,6 @@ async function main() {
   manager.addDocument('en', 'are you still working on it', 'agent.busy');
   manager.addDocument('en', 'you seem busy', 'agent.busy');
   manager.addDocument('en', 'are you working today', 'agent.busy');
-  manager.addDocument('en', 'can you help me now', 'agent.canyouhelp');
-  manager.addDocument(
-    'en',
-    'I need you to do something for me',
-    'agent.canyouhelp'
-  );
-  manager.addDocument('en', 'assist me', 'agent.canyouhelp');
-  manager.addDocument('en', 'I need you to help me', 'agent.canyouhelp');
-  manager.addDocument('en', 'I need your help', 'agent.canyouhelp');
-  manager.addDocument('en', 'can you assist me', 'agent.canyouhelp');
-  manager.addDocument('en', 'you can help me', 'agent.canyouhelp');
   manager.addDocument('en', 'are you a bot', 'agent.chatbot');
   manager.addDocument('en', 'are you a chatbot', 'agent.chatbot');
   manager.addDocument('en', 'you are a robot', 'agent.chatbot');
@@ -540,17 +553,6 @@ async function main() {
     'en',
     'agent.busy',
     "I always have time to chat with you. That's what I'm here for."
-  );
-  manager.addAnswer('en', 'agent.canyouhelp', "I'll certainly try my best");
-  manager.addAnswer(
-    'en',
-    'agent.canyouhelp',
-    "Sure. I'd be happy to. What's up?"
-  );
-  manager.addAnswer(
-    'en',
-    'agent.canyouhelp',
-    "I'm glad to help. What can I do for you?"
   );
   manager.addAnswer('en', 'agent.chatbot', "That's me. I chat, therefore I am");
   manager.addAnswer(

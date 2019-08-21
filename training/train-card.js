@@ -4,11 +4,12 @@ let conversationContext = {};
 async function main() {
   const manager = new NlpManager({ languages: ['en', 'fr'] });
 
-  // English Modify
-  manager.addDocument('en', 'I want to set my %duration% %type% limit to %amount% €', 'en_modify');
-  manager.addDocument('en', 'I would like to increase the %duration% limit to %amount%', 'en_modify');
-  manager.addDocument('en', 'Change the %type% limit of my card', 'en_modify');
-  manager.addDocument('en', 'Lower my %duration% limit to %amount%', 'en_modify');
+  // English Modify Limit
+  manager.addDocument('en', 'I want to set my %duration% %type% limit to %amount% €', 'en_modify_limit');
+  manager.addDocument('en', 'I would like to increase the %duration% limit to %amount%', 'en_modify_limit');
+  manager.addDocument('en', 'Change the %type% limit of my card', 'en_modify_limit');
+  manager.addDocument('en', 'Can you change my credit card limit?', 'en_modify_limit');
+  manager.addDocument('en', 'Lower my %duration% limit to %amount%', 'en_modify_limit');
 
   manager.addNamedEntityText('type', 'purchase', ['en'], ['purchase', 'payment', 'shop']);
   manager.addNamedEntityText('type', 'withdrawal', ['en'], ['withdrawal', 'ATM withdrawal', 'ATM']);
@@ -17,20 +18,30 @@ async function main() {
   manager.addNamedEntityText('confirm', 'yes', ['en'], ['Yes', 'Confirm']);
   manager.addNamedEntityText('confirm', 'no', ['en'], ['No', 'Cancel']);
 
-  manager.slotManager.addSlot('en_modify', 'type', true, { en: 'Do you want to modify the purchase or withdrawal limit?|purchase,withdrawal' });
-  manager.slotManager.addSlot('en_modify', 'duration', true, { en: 'Do you want to modify the daily or monthly limit?|daily,monthly' });
-  manager.slotManager.addSlot('en_modify', 'amount', true, { en: 'What is the new desired limit?|600,900,1200' });
-  manager.slotManager.addSlot('en_modify', 'confirm', true, { en: 'Your new {{ duration }} {{ type }} limit will be {{ amount }} €. Do you want to confirm?|Yes,No' });
+  manager.slotManager.addSlot('en_modify_limit', 'type', true, { en: 'Do you want to modify the purchase or withdrawal limit?|purchase,withdrawal' });
+  manager.slotManager.addSlot('en_modify_limit', 'duration', true, { en: 'Do you want to modify the daily or monthly limit?|daily,monthly' });
+  manager.slotManager.addSlot('en_modify_limit', 'amount', true, { en: 'What is the new desired limit?|600,900,1200' });
+  manager.slotManager.addSlot('en_modify_limit', 'confirm', true, { en: 'Your new {{ duration }} {{ type }} limit will be {{ amount }} €. Do you want to confirm?|Yes,No' });
 
-  manager.addAnswer('en', 'en_modify', 'Your demand has been taken into account');
+  manager.addAnswer('en', 'en_modify_limit', 'Your demand has been taken into account');
 
-  // French Modify
-  manager.addDocument('fr', 'Je veux augmenter mon plafond %duration% de %type% à %amount% €', 'fr_modify');
-  manager.addDocument('fr', 'Je souhaite monter mon plafond %duration% à %amount%', 'fr_modify');
-  manager.addDocument('fr', 'Changer le plafond de %type% de ma carte', 'fr_modify');
-  manager.addDocument('fr', 'Baisser mon plafond %duration% à %amount%', 'fr_modify');
-  manager.addDocument('fr', 'J\'aimerais modifier le plafond de ma carte', 'fr_modify');
-  manager.addDocument('fr', 'Peux-tu mettre mon plafond de ma carte bancaire à %amount% ?', 'fr_modify');
+  // English Get Limit
+  manager.addDocument('en', 'What is my %duration% %type% limit?', 'en_get_limit');
+  manager.addDocument('en', '%type% limit of my card', 'en_get_limit');
+  manager.addDocument('en', 'Can you tell me my credit card limit?', 'en_get_limit');
+
+  manager.slotManager.addSlot('en_get_limit', 'type', true, { en: 'Do you want to know the purchase or withdrawal limit?|purchase,withdrawal' });
+  manager.slotManager.addSlot('en_get_limit', 'duration', true, { en: 'Do you want to get the daily or monthly limit?|daily,monthly' });
+
+  manager.addAnswer('en', 'en_get_limit', 'Your current {{ duration }} {{ type }} limit is 1 200 €');
+
+  // French Modify Limit
+  manager.addDocument('fr', 'Je veux augmenter mon plafond %duration% de %type% à %amount% €', 'fr_modify_limit');
+  manager.addDocument('fr', 'Je souhaite monter mon plafond %duration% à %amount%', 'fr_modify_limit');
+  manager.addDocument('fr', 'Changer le plafond de %type% de ma carte', 'fr_modify_limit');
+  manager.addDocument('fr', 'Baisser mon plafond %duration% à %amount%', 'fr_modify_limit');
+  manager.addDocument('fr', 'J\'aimerais modifier le plafond de ma carte', 'fr_modify_limit');
+  manager.addDocument('fr', 'Peux-tu mettre mon plafond de ma carte bancaire à %amount% ?', 'fr_modify_limit');
 
   manager.addNamedEntityText('type', 'paiement', ['fr'], ['paiement', 'magasin']);
   manager.addNamedEntityText('type', 'retrait', ['fr'], ['retrait', 'DAB']);
@@ -39,22 +50,22 @@ async function main() {
   manager.addNamedEntityText('confirm', 'oui', ['fr'], ['oui', 'Oui', 'Confirmer']);
   manager.addNamedEntityText('confirm', 'non', ['fr'], ['non', 'Non', 'Annuler']);
 
-  manager.slotManager.addSlot('fr_modify', 'type', true, { fr: 'Souhaitez-vous modifier le plafond de paiement ou de retrait ?|paiement,retrait' });
-  manager.slotManager.addSlot('fr_modify', 'duration', true, { fr: 'Voulez-vous modifier le plafond quotidien ou mensuel ?|quotidien,mensuel' });
-  manager.slotManager.addSlot('fr_modify', 'amount', true, { fr: 'Quel est le nouveau plafond souhaité ?|600,900,1200' });
-  manager.slotManager.addSlot('fr_modify', 'confirm', true, { fr: 'Votre plafond de {{ type }} {{ duration }} sera modifié à {{ amount }} €. Confirmez-vous ce changement ?|Oui,Non' });
+  manager.slotManager.addSlot('fr_modify_limit', 'type', true, { fr: 'Souhaitez-vous modifier le plafond de paiement ou de retrait ?|paiement,retrait' });
+  manager.slotManager.addSlot('fr_modify_limit', 'duration', true, { fr: 'Voulez-vous modifier le plafond quotidien ou mensuel ?|quotidien,mensuel' });
+  manager.slotManager.addSlot('fr_modify_limit', 'amount', true, { fr: 'Quel est le nouveau plafond souhaité ?|600,900,1200' });
+  manager.slotManager.addSlot('fr_modify_limit', 'confirm', true, { fr: 'Votre plafond de {{ type }} {{ duration }} sera modifié à {{ amount }} €. Confirmez-vous ce changement ?|Oui,Non' });
 
-  manager.addAnswer('fr', 'fr_modify', 'Votre demande a bien été prise en compte');
+  manager.addAnswer('fr', 'fr_modify_limit', 'Votre demande a bien été prise en compte');
 
-  // French Consultation
-  manager.addDocument('fr', 'Quel est mon plafond %duration% de %type% ?', 'fr_consult');
-  manager.addDocument('fr', 'Plafond de %type% de ma carte', 'fr_consult');
-  manager.addDocument('fr', 'Peux-tu m\'indiquer mon plafond de ma carte bancaire ?', 'fr_consult');
+  // French Get Limit
+  manager.addDocument('fr', 'Quel est mon plafond %duration% de %type% ?', 'fr_get_limit');
+  manager.addDocument('fr', 'Plafond de %type% de ma carte', 'fr_get_limit');
+  manager.addDocument('fr', 'Peux-tu m\'indiquer mon plafond de ma carte bancaire ?', 'fr_get_limit');
 
-  manager.slotManager.addSlot('fr_consult', 'type', true, { fr: 'Souhaitez-vous consulter le plafond de paiement ou de retrait ?|paiement,retrait' });
-  manager.slotManager.addSlot('fr_consult', 'duration', true, { fr: 'Voulez-vous le plafond quotidien ou mensuel ?|quotidien,mensuel' });
+  manager.slotManager.addSlot('fr_get_limit', 'type', true, { fr: 'Souhaitez-vous consulter le plafond de paiement ou de retrait ?|paiement,retrait' });
+  manager.slotManager.addSlot('fr_get_limit', 'duration', true, { fr: 'Voulez-vous le plafond quotidien ou mensuel ?|quotidien,mensuel' });
 
-  manager.addAnswer('fr', 'fr_consult', 'Votre plafond de {{ type }} {{ duration }} est actuellement de 1 200 €');
+  manager.addAnswer('fr', 'fr_get_limit', 'Votre plafond de {{ type }} {{ duration }} est actuellement de 1 200 €');
 
   // common
   manager.addRegexEntity('amount', ['en', 'fr'], '/^\d+$/');
@@ -839,6 +850,12 @@ async function main() {
   const result7 = await manager.process('en', 'yes', conversationContext);
   console.log(result7.answer, conversationContext);
 
+  // Console output:
+  // Wow! You saw spiderman and iron man eating pasta!
+  // With whom did you see iron man?
+  // With whom did you see thor?
+  // What where they eating?
+  // Who did you see?
 }
 
 main();

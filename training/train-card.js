@@ -10,6 +10,7 @@ async function main() {
   manager.addDocument('en', 'Change the %type% limit of my card', 'en_modify_limit');
   manager.addDocument('en', 'Can you change my credit card limit?', 'en_modify_limit');
   manager.addDocument('en', 'Lower my %duration% limit to %amount%', 'en_modify_limit');
+  manager.addDocument('en', 'Increase my limit to %amount%', 'en_modify_limit');
 
   manager.addNamedEntityText('type', 'purchase', ['en'], ['purchase', 'payment', 'shop']);
   manager.addNamedEntityText('type', 'withdrawal', ['en'], ['withdrawal', 'ATM withdrawal', 'ATM']);
@@ -26,6 +27,7 @@ async function main() {
   manager.addAnswer('en', 'en_modify_limit', 'Your demand has been taken into account');
 
   // English Get Limit
+  manager.addDocument('en', 'What is my current limit?', 'en_get_limit');
   manager.addDocument('en', 'What is my %duration% %type% limit?', 'en_get_limit');
   manager.addDocument('en', '%type% limit of my card', 'en_get_limit');
   manager.addDocument('en', 'Can you tell me my credit card limit?', 'en_get_limit');
@@ -51,11 +53,13 @@ async function main() {
 
   // French Modify Limit
   manager.addDocument('fr', 'Je veux augmenter mon plafond %duration% de %type% à %amount% €', 'fr_modify_limit');
+  manager.addDocument('fr', 'Je veux augmenter mon plafond de %type% %duration%', 'fr_modify_limit');
   manager.addDocument('fr', 'Je souhaite monter mon plafond %duration% à %amount%', 'fr_modify_limit');
   manager.addDocument('fr', 'Changer le plafond de %type% de ma carte', 'fr_modify_limit');
   manager.addDocument('fr', 'Baisser mon plafond %duration% à %amount%', 'fr_modify_limit');
   manager.addDocument('fr', 'J\'aimerais modifier le plafond de ma carte', 'fr_modify_limit');
   manager.addDocument('fr', 'Peux-tu mettre mon plafond de ma carte bancaire à %amount% ?', 'fr_modify_limit');
+  manager.addDocument('fr', 'Pourrais-tu augmenter mon plafond à %amount% ?', 'fr_modify_limit');
 
   manager.addNamedEntityText('type', 'paiement', ['fr'], ['paiement', 'magasin']);
   manager.addNamedEntityText('type', 'retrait', ['fr'], ['retrait', 'DAB']);
@@ -72,6 +76,7 @@ async function main() {
   manager.addAnswer('fr', 'fr_modify_limit', 'Votre demande a bien été prise en compte');
 
   // French Get Limit
+  manager.addDocument('fr', 'Quel est mon plafond actuel ?', 'fr_get_limit');
   manager.addDocument('fr', 'Quel est mon plafond %duration% de %type% ?', 'fr_get_limit');
   manager.addDocument('fr', 'Plafond de %type% de ma carte', 'fr_get_limit');
   manager.addDocument('fr', 'Peux-tu m\'indiquer mon plafond de ma carte bancaire ?', 'fr_get_limit');

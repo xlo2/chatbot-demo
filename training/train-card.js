@@ -2,7 +2,7 @@ const { NlpManager } = require('node-nlp');
 let conversationContext = {};
 
 async function main() {
-  const manager = new NlpManager({ languages: ['en', 'fr'] });
+  const manager = new NlpManager({ languages: ['en', 'es', 'fr'] });
 
   // English Modify Limit
   manager.addDocument('en', 'I want to set my %duration% %type% limit to %amount% €', 'en_modify_limit');
@@ -41,15 +41,61 @@ async function main() {
   manager.addDocument('en', 'What can you do?', 'en_help');
   manager.addDocument('en', 'Help', 'en_help');
   manager.addDocument('en', 'can you help me now', 'en_help');
-  manager.addDocument('en', 'I need you to do something for me', 'en_helpp');
-  manager.addDocument('en', 'assist me', 'en_help');
+  manager.addDocument('en', 'I need you to do something for me', 'en_help');
+  manager.addDocument('en', 'Assist me', 'en_help');
   manager.addDocument('en', 'I need you to help me', 'en_help');
   manager.addDocument('en', 'I need your help', 'en_help');
-  manager.addDocument('en', 'can you assist me', 'en_help');
-  manager.addDocument('en', 'you can help me', 'en_help');
+  manager.addDocument('en', 'Can you assist me', 'en_help');
+  manager.addDocument('en', 'You can help me', 'en_help');
 
   manager.addAnswer('en', 'en_help', "I am your credit card limit assistant. You can ask me for your current credit card limit or request a limit modification|What is my current limit?,I want to change my limit");
-  manager.addAnswer('en', 'en_help', "I'm glad to help. You can ask me for your current credit card limit or request a limit modification|What is my current limit?,I want to change my limit");
+  manager.addAnswer('en', 'en_help', "I am glad to help. You can ask me for your current credit card limit or request a limit modification|What is my current limit?,I want to change my limit");
+
+  // Spanish Modify Limit
+  manager.addDocument('es', 'Quiero establecer mi límite de %type% %duration% a %amount% €', 'es_modify_limit');
+  manager.addDocument('es', 'Me gustaría aumentar el límite diario a %amount%', 'es_modify_limit');
+  manager.addDocument('es', 'Cambiar el límite de retiro de mi tarjeta', 'es_modify_limit');
+  manager.addDocument('es', '¿Pueden cambiar el límite de mi tarjeta de crédito?', 'es_modify_limit');
+  manager.addDocument('es', 'Bajar mi límite %duration% a %amount%', 'es_modify_limit');
+  manager.addDocument('es', 'Aumentar el límite de mi tarjeta de crédito a %amount%', 'es_modify_limit');
+
+  manager.addNamedEntityText('type', 'compbra', ['es'], ['compbra', 'pago', 'tienda']);
+  manager.addNamedEntityText('type', 'retiro', ['es'], ['retiro', 'Retiro en cajero automático', 'Cajero automático']);
+  manager.addNamedEntityText('duration', 'diario', ['es'], ['diario', 'al día']);
+  manager.addNamedEntityText('duration', 'mensual', ['es'], ['mensual', 'al mes']);
+  manager.addNamedEntityText('confirm', 'sí', ['es'], ['Sí', 'Confirmar']);
+  manager.addNamedEntityText('confirm', 'no', ['es'], ['No', 'Cancelar']);
+
+  manager.slotManager.addSlot('es_modify_limit', 'type', true, { es: '¿Desea modificar el límite de compra o retiro?|compbra,retiro' });
+  manager.slotManager.addSlot('es_modify_limit', 'duration', true, { es: '¿Desea modificar el límite diario o mensual?|diario,mensual' });
+  manager.slotManager.addSlot('es_modify_limit', 'amount', true, { es: '¿Cuál es el nuevo límite deseado?|600,900,1200' });
+  manager.slotManager.addSlot('es_modify_limit', 'confirm', true, { es: 'Su nuevo límite de {{ type }} {{ duration }} será de {{ amount }} €. ¿Quieres confirmar?|Sí,No' });
+
+  manager.addAnswer('es', 'es_modify_limit', 'Su demanda ha sido tomada en cuenta');
+
+  // Spanish Get Limit
+  manager.addDocument('es', '¿Cuál es mi límite actual?', 'es_get_limit');
+  manager.addDocument('es', '¿Cuál es mi límite de %type% %duration%?', 'es_get_limit');
+  manager.addDocument('es', 'Límite de %type% de mi tarjeta de crédito', 'es_get_limit');
+  manager.addDocument('es', '¿Me puede decir el límite de mi tarjeta de crédito?', 'es_get_limit');
+
+  manager.slotManager.addSlot('es_get_limit', 'type', true, { es: '¿Quieres saber el límite de compra o retiro?|combra,retiro' });
+  manager.slotManager.addSlot('es_get_limit', 'duration', true, { es: '¿Quieres obtener el límite diario o mensual?|diario,mensual' });
+
+  manager.addAnswer('es', 'es_get_limit', 'Su límite actual de {{ type }} {{ duration }} es de 1 200 €');
+
+  // Spanish Help
+  manager.addDocument('es', '¿Qué puedes hacer?', 'es_help');
+  manager.addDocument('es', 'Ayuda', 'es_help');
+  manager.addDocument('es', '¿Me pueden ayudar ahora?', 'es_help');
+  manager.addDocument('es', 'Necesito que hagas algo por mí', 'es_help');
+  manager.addDocument('es', 'Ayúdame', 'es_help');
+  manager.addDocument('es', 'Necesito que me ayudes', 'es_help');
+  manager.addDocument('es', 'Necesito tu ayuda', 'es_help');
+  manager.addDocument('es', '¿Me puedes ayudar?', 'es_help');
+
+  manager.addAnswer('es', 'es_help', "Soy su asistente de límite de tarjeta de crédito. Puede solicitarme el límite actual de su tarjeta de crédito o solicitar una modificación del límite|¿Cuál es mi límite actual?,Quiero cambiar mi limite");
+  manager.addAnswer('es', 'es_help', "Me alegra ayudar. Puede solicitarme el límite actual de su tarjeta de crédito o solicitar una modificación del límite|¿Cuál es mi límite actual?,Quiero cambiar mi limite");
 
   // French Modify Limit
   manager.addDocument('fr', 'Je veux augmenter mon plafond %duration% de %type% à %amount% €', 'fr_modify_limit');
@@ -97,7 +143,7 @@ async function main() {
   manager.addAnswer('fr', 'fr_help', "Je suis heureux d'aider. Vous pouvez consulter votre plafond actuel ou demander une modification|Quel est mon plafond ?,Je veux changer mon plafond");
 
   // common
-  manager.addRegexEntity('amount', ['en', 'fr'], '/^\d+$/');
+  manager.addRegexEntity('amount', ['en', 'es', 'fr'], '/^\d+$/');
 
   // Chitchat English
   manager.addDocument('en', 'say about you', 'agent.acquaintance');

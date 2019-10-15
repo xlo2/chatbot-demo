@@ -95,7 +95,7 @@
                 "domainName": "3ancux3lva.execute-api.eu-west-1.amazonaws.com",
                 "apiId": "3ancux3lva"
             },
-            "body": "{ \"message\": \"700\", \"context\": {\"name\":\"Paul\"} }",
+            "body": "{ \"message\": \"What is the status of k8n?\", \"context\": { } }",
             "isBase64Encoded": false
         }
     }

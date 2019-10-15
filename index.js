@@ -21,9 +21,11 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-const { NlpManager } = require('node-nlp');
 const threshold = 0.5;
-const nlpManager = new NlpManager({ languages: ['en', 'es', 'fr'], nlu: { log: true } });
+const { NlpManager } = require('node-nlp');
+const  axios = require('axios');
+const config_data = require('./config.json')
+const nlpManager = new NlpManager({ languages: ['en'], nlu: { log: true } });
 
 let conversationContext = {};
 
@@ -34,12 +36,23 @@ exports.handler =  async function(event, context) {
   conversationContext = body.context;
   let language = await guessLanguage(nlpManager, body.message, conversationContext);
   let result = await nlpManager.process(language, body.message, conversationContext);
+  if (result.intent === "en_get_tech_status") {
+    if (result.entities.length > 0) {
+      console.log("User wants to get the status of ", result.entities[0].option);
+      result.answer = result.answer.replace('$status$', await getTechStatus(result.entities[0].option));
+    }
+  } else if (result.intent === "en_get_tech_info") {
+    if (result.entities.length > 0) {
+      console.log("User wants to get a description of the status for ", result.entities[0].option);
+      result.answer = result.answer.replace('$description$', await getTechDescription(result.entities[0].option));
+    }
+  }
   let answer =
     result.score > threshold && result.answer
     ? result.answer
     : defaultAnswer(language);
 
-  var response = { 
+  var response = {
     statusCode: 200, 
     headers: { 
       "Access-Control-Allow-Origin": "*" 
@@ -65,4 +78,46 @@ function defaultAnswer(language) {
   } else if (language === 'fr') {
     return "Désolé, je ne comprends pas"
   } else return "Sorry, I don't understand";
+}
+
+async function getTechStatus(technology) {
+  console.log('Getting status for', technology)
+  return (await getTechInfos(technology)).groupStatus;
+}
+
+async function getTechDescription(technology) {
+  console.log('Getting description for', technology)
+  return (await getTechInfos(technology)).description;
+}
+
+
+async function getTechInfos(technology) {
+  console.log('Getting all infos for', technology);
+  let allTechInfos = (await getAllTechInfos()).data;
+  let response;
+  allTechInfos.forEach(function(element) {
+    if (element.key === technology) { 
+      response = element;
+    }
+  });
+  return response;
+}
+
+async function getAllTechInfos() {
+  console.log('Getting all infos');
+  // call external rest service
+  var response;
+  try {
+    response = await axios({
+      method: 'get',
+      url: 'https://radar-api.paas.axa-asia.com/api/technologies',
+      headers: {
+        accept: 'application/json',
+        authorization: config_data.authorizationToken
+      }
+    });
+  } catch (error) {
+    console.log("Error call the API:", error);
+  }
+  return response;
 }

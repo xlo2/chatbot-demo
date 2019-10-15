@@ -1,3 +1,9 @@
 .application.json
 node_modules
+package.yml
 package.yaml
+packaged.yaml
+lambda-payloads.json
+package-lock.json
+serverless-output.yaml
+config.json

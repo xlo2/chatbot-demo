@@ -68,6 +68,7 @@ Resources:
       Handler: index.handler
       Runtime: nodejs8.10
       MemorySize: 3008
+      Timeout: 15
       Events:
         HelloWorldApi:
           Type: Api
